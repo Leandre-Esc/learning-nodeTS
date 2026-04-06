@@ -4,6 +4,8 @@ import helmet from 'helmet';
 import rateLimit from "express-rate-limit";
 import {registerSwagger} from "./plugins/swagger.js";
 import {healthRouter} from "./modules/health/health.routes.js";
+import {userRouter} from "./modules/user/user.route.js";
+import {errorHandler} from "./middlewares/errorHandler.js";
 
 export function buildApp() {
     const app = express()
@@ -24,6 +26,9 @@ export function buildApp() {
     registerSwagger(app)
 
     app.use('/api/v1', healthRouter)
+    app.use("/api/v1/users", userRouter)
+
+    app.use(errorHandler)
 
     return app
 }
